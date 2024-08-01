@@ -7,6 +7,15 @@ pipeline {
                 git 'https://github.com/jbtis/python_jenkins_test.git'
             }
         }
+        stage('Setup') {
+            steps {
+                bat '''
+                    set PATH=C:\\Users\\Mariano\\AppData\\Local\\Programs\\Python\\Python312;%PATH%
+                    pip install --upgrade pip
+                    pip install coverage
+                '''
+            }
+        }
         stage('Run main.py') {
             steps {
                 bat '''
@@ -36,7 +45,7 @@ pipeline {
                     keepAll: true,
                     reportDir: 'htmlcov',
                     reportFiles: 'index.html',
-                    reportName: 'Coverage Report for Simple Python Project'
+                    reportName: 'Coverage Report'
                 ])
             }
         }
