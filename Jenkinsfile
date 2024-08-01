@@ -8,7 +8,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git 'https://github.com/yourusername/my_python_project.git'
+                git 'https://github.com/jbtis/python_jenkins_test'
             }
         }
         stage('Setup') {
