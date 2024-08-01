@@ -2,7 +2,6 @@ pipeline {
     agent any
 
     environment {
-        // Adjust these paths to match your actual Python and pip installation paths
         PYTHON_PATH = 'C:\\Users\\Mariano\\AppData\\Local\\Programs\\Python\\Python312'
         PIP_PATH = 'C:\\Users\\Mariano\\AppData\\Local\\Programs\\Python\\Python312\\Scripts'
     }
@@ -19,7 +18,7 @@ pipeline {
                     set PATH=%PYTHON_PATH%;%PIP_PATH%;%PATH%
                     python -m venv venv
                     call venv\\Scripts\\activate
-                    pip install --upgrade pip
+                    python -m pip install --upgrade pip
                     pip install coverage
                 '''
             }
