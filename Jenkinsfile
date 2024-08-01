@@ -37,8 +37,9 @@ pipeline {
                 bat '''
                     set PATH=%PYTHON_PATH%;%PIP_PATH%;%PATH%
                     call venv\\Scripts\\activate
-                    coverage run -m unittest discover
+                    coverage run -m unittest discover > test_results.txt
                 '''
+                archiveArtifacts artifacts: 'test_results.txt', allowEmptyArchive: true
             }
         }
         stage('Report') {
