@@ -1,6 +1,12 @@
 pipeline {
     agent any
 
+    environment {
+        // Adjust these paths to match your actual Python and pip installation paths
+        PYTHON_PATH = 'C:\\Users\\Mariano\\AppData\\Local\\Programs\\Python\\Python312'
+        PIP_PATH = 'C:\\Users\\Mariano\\AppData\\Local\\Programs\\Python\\Python312\\Scripts'
+    }
+
     stages {
         stage('Checkout') {
             steps {
@@ -10,7 +16,9 @@ pipeline {
         stage('Setup') {
             steps {
                 bat '''
-                    set PATH=C:\\Users\\Mariano\\AppData\\Local\\Programs\\Python\\Python312;%PATH%
+                    set PATH=%PYTHON_PATH%;%PIP_PATH%;%PATH%
+                    python -m venv venv
+                    call venv\\Scripts\\activate
                     pip install --upgrade pip
                     pip install coverage
                 '''
@@ -19,7 +27,8 @@ pipeline {
         stage('Run main.py') {
             steps {
                 bat '''
-                    set PATH=C:\\Users\\Mariano\\AppData\\Local\\Programs\\Python\\Python312;%PATH%
+                    set PATH=%PYTHON_PATH%;%PIP_PATH%;%PATH%
+                    call venv\\Scripts\\activate
                     python main.py
                 '''
             }
@@ -27,7 +36,8 @@ pipeline {
         stage('Test') {
             steps {
                 bat '''
-                    set PATH=C:\\Users\\Mariano\\AppData\\Local\\Programs\\Python\\Python312;%PATH%
+                    set PATH=%PYTHON_PATH%;%PIP_PATH%;%PATH%
+                    call venv\\Scripts\\activate
                     coverage run -m unittest discover
                 '''
             }
@@ -35,7 +45,8 @@ pipeline {
         stage('Report') {
             steps {
                 bat '''
-                    set PATH=C:\\Users\\Mariano\\AppData\\Local\\Programs\\Python\\Python312;%PATH%
+                    set PATH=%PYTHON_PATH%;%PIP_PATH%;%PATH%
+                    call venv\\Scripts\\activate
                     coverage report -m
                     coverage html
                 '''
