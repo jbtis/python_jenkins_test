@@ -8,14 +8,14 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git 'https://github.com/jbtis/python_jenkins_test'
+                git 'https://github.com/jbtis/python_jenkins_test.git'
             }
         }
         stage('Setup') {
             steps {
-                sh '''
-                    python -m venv $PYTHON_ENV
-                    . $PYTHON_ENV/bin/activate
+                bat '''
+                    python -m venv %PYTHON_ENV%
+                    call %PYTHON_ENV%\\Scripts\\activate
                     pip install --upgrade pip
                     pip install -r requirements.txt || true
                 '''
@@ -29,16 +29,16 @@ pipeline {
         }
         stage('Test') {
             steps {
-                sh '''
-                    . $PYTHON_ENV/bin/activate
+                bat '''
+                    call %PYTHON_ENV%\\Scripts\\activate
                     coverage run -m unittest discover
                 '''
             }
         }
         stage('Report') {
             steps {
-                sh '''
-                    . $PYTHON_ENV/bin/activate
+                bat '''
+                    call %PYTHON_ENV%\\Scripts\\activate
                     coverage report -m
                     coverage html
                 '''
